@@ -1,0 +1,55 @@
+name: Push to feature branch
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}
+  VERCEL_API_TOKEN: ${{ secrets.vercel_api_token }}
+  working-directory: "./terraform/environments/staging"
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!main"
+
+jobs:
+  check-infrastructure:
+    runs-on: ubuntu-latest
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # Set the working directory
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{env.working-directory}}
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Initialize SSH Agent
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Install the selected version of Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ secrets.TERRAFORM_VERSION }}
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      # Run a terraform fmt to check syntax
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      # Run a terraform validate
+      - name: Terraform Validate
+        id: validate
+        # Run even if formatting fails
+        if: success() || failure()
+        run: terraform validate -no-color
