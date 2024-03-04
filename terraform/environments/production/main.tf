@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "dg-portfolio-us-east-2-tfstate"
-    key            = "environments/development/terraform.tfstate"
+    key            = "environments/production/terraform.tfstate"
     region         = "us-east-2"
     dynamodb_table = "dg-portfolio-us-east-2-lock"
     encrypt        = true
@@ -20,7 +20,7 @@ data "vercel_project_directory" "directory" {
 }
 
 resource "vercel_project" "portfolio" {
-  name      = "dev-doppelgengar-portfolio"
+  name      = "doppelgengar-portfolio"
   framework = "nextjs"
 }
 
@@ -33,10 +33,10 @@ resource "vercel_deployment" "deployment" {
 
 resource "vercel_project_domain" "apex" {
   project_id = vercel_project.portfolio.id
-  domain     = "dev.doppelgengar.dev"
+  domain     = "doppelgengar.dev"
 }
 
 resource "vercel_project_domain" "www" {
   project_id = vercel_project.portfolio.id
-  domain     = "www.dev.doppelgengar.dev"
+  domain     = "www.doppelgengar.dev"
 }
