@@ -1,0 +1,13 @@
+.nav:hover {
+  /* offset-x | offset-y | blur-radius | color */
+  text-shadow: 2px 0px 2px var(--color-highlight);
+  color: var(--color-white);
+}
+.nav {
+  font-size: 18px;
+  color: var(--color-shade);
+}
+.active {
+  font-weight: bold;
+  color: var(--color-white);
+}
