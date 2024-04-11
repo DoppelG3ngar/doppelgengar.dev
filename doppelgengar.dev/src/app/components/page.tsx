@@ -1,4 +1,4 @@
-import { NavHeader } from "@/ui/navHeader";
+import { NavHeader } from "@/ui/header/navHeader";
 
 export default function components() {
   return (

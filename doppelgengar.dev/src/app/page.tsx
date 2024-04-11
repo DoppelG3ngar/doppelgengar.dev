@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { NavHeader } from "@/ui/navHeader";
+import { NavHeader } from "@/ui/header/navHeader";
 
 export default function Home() {
   return (
