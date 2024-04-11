@@ -20,7 +20,7 @@ data "vercel_project_directory" "directory" {
 }
 
 resource "vercel_project" "portfolio" {
-  name      = "doppelgengar-portfolio"
+  name      = "staging-doppelgengar-portfolio"
   framework = "nextjs"
 }
 
@@ -28,15 +28,15 @@ resource "vercel_deployment" "deployment" {
   project_id  = vercel_project.portfolio.id
   files       = data.vercel_project_directory.directory.files
   path_prefix = "../../../doppelgengar.dev"
-  production  = true
+  production  = false
 }
 
-resource "vercel_project_domain" "apex" {
+resource "vercel_project_domain" "wwwstaging" {
   project_id = vercel_project.portfolio.id
-  domain     = "doppelgengar.dev"
+  domain     = "www.staging.doppelgengar.dev"
 }
 
-resource "vercel_project_domain" "www" {
+resource "vercel_project_domain" "staging" {
   project_id = vercel_project.portfolio.id
-  domain     = "www.doppelgengar.dev"
+  domain     = "staging.doppelgengar.dev"
 }
