@@ -43,7 +43,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         # Run even if formatting fails
-        run: terraform plan
+        run: terraform plan -no-color
 
       # Updates the PR with terraform plan
       - name: "Update PR"
