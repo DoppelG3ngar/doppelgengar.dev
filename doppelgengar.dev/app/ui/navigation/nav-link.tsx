@@ -26,7 +26,14 @@ export default function NavLinks() {
             })}
           >
             <p>
-              <span className="text-accent">#</span>
+              <span
+                className={clsx({
+                  'font-bold text-accent': pathname === link.href,
+                  'hidden': pathname !== link.href,
+                })}
+              >
+                #
+              </span>
               {link.name}
             </p>
           </Link>
